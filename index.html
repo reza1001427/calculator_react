@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Load React, React DOM, and Babel (to translate React to browser code) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+    <!-- This div is where React will build the app -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- COMPONENTS ---
+
+        // 1. Theme Button Component
+        const ThemeToggle = ({ isDark, toggleTheme }) => (
+            <button className="theme-btn" onClick={toggleTheme}>
+                {isDark ? "☀️ Light Mode" : "🌙 Dark Mode"}
+            </button>
+        );
+
+        // 2. Mode Selector Component
+        const ModeSelector = ({ mode, setMode }) => (
+            <div className="mode-selector">
+                <button 
+                    className={`mode-btn ${mode === 'simple' ? 'active' : ''}`} 
+                    onClick={() => setMode('simple')}>
+                    Simple
+                </button>
+                <button 
+                    className={`mode-btn ${mode === 'advanced' ? 'active' : ''}`} 
+                    onClick={() => setMode('advanced')}>
+                    Advanced
+                </button>
+            </div>
+        );
+
+        // 3. Calculator Main Component
+        const Calculator = () => {
+            const [mode, setMode] = useState('simple');
+            const [display, setDisplay] = useState('');
+            const [isDark, setIsDark] = useState(false);
+
+            // Toggle Dark Mode Class on Body
+            useEffect(() => {
+                if (isDark) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            }, [isDark]);
+
+            const handleChar = (char) => setDisplay(prev => prev + char);
+            
+            const handleClear = () => setDisplay('');
+            
+            const handleDelete = () => setDisplay(prev => prev.slice(0, -1));
+
+            const handleMathFunction = (func) => {
+                if (func === 'pi') {
+                    setDisplay(prev => prev + Math.PI);
+                } else {
+                    setDisplay(prev => prev + func + '(');
+                }
+            };
+
+            const calculate = () => {
+                try {
+                    let expression = display;
+                    // Advanced Math replacements
+                    if (mode === 'advanced') {
+                        expression = expression.replace(/sin/g, 'Math.sin');
+                        expression = expression.replace(/cos/g, 'Math.cos');
+                        expression = expression.replace(/tan/g, 'Math.tan');
+                        expression = expression.replace(/log/g, 'Math.log10');
+                        expression = expression.replace(/sqrt/g, 'Math.sqrt');
+                    }
+                    // Safety check before eval
+                    if(!expression) return;
+                    
+                    const result = eval(expression); 
+                    setDisplay(String(result));
+                } catch (error) {
+                    setDisplay('Error');
+                    setTimeout(() => setDisplay(''), 1500);
+                }
+            };
+
+            return (
+                <div className="container">
+                    <ThemeToggle isDark={isDark} toggleTheme={() => setIsDark(!isDark)} />
+                    <h1>React Web Calculator</h1>
+                    
+                    <ModeSelector mode={mode} setMode={(m) => { setMode(m); setDisplay(''); }} />
+
+                    <input type="text" className="display" value={display} readOnly />
+
+                    <div className="buttons-grid">
+                        <button onClick={handleClear}>C</button>
+                        <button onClick={handleDelete}>DEL</button>
+                        
+                        {mode === 'advanced' ? (
+                            <>
+                                <button onClick={() => handleChar('%')}>%</button>
+                                <button onClick={() => handleChar('/')}>/</button>
+                                
+                                <button onClick={() => handleMathFunction('sin')}>sin</button>
+                                <button onClick={() => handleMathFunction('cos')}>cos</button>
+                                <button onClick={() => handleMathFunction('tan')}>tan</button>
+                                <button onClick={() => handleChar('*')}>×</button>
+                            </>
+                        ) : (
+                            <>
+                                <button onClick={() => handleChar('/')}>/</button>
+                                <button onClick={() => handleChar('*')}>×</button>
+                            </>
+                        )}
+
+                        <button onClick={() => handleChar('7')}>7</button>
+                        <button onClick={() => handleChar('8')}>8</button>
+                        <button onClick={() => handleChar('9')}>9</button>
+                        <button onClick={() => handleChar('-')}>-</button>
+
+                        <button onClick={() => handleChar('4')}>4</button>
+                        <button onClick={() => handleChar('5')}>5</button>
+                        <button onClick={() => handleChar('6')}>6</button>
+                        <button onClick={() => handleChar('+')}>+</button>
+
+                        <button onClick={() => handleChar('1')}>1</button>
+                        <button onClick={() => handleChar('2')}>2</button>
+                        <button onClick={() => handleChar('3')}>3</button>
+                        
+                        {/* Equal button logic for grid positioning */}
+                        <button 
+                            className={`equal-btn ${mode === 'simple' ? 'simple-equal' : ''}`} 
+                            onClick={calculate}>=</button>
+
+                        <button className={mode === 'simple' ? 'span-2' : ''} onClick={() => handleChar('0')}>0</button>
+                        <button onClick={() => handleChar('.')}>.</button>
+
+                        {/* Extra Advanced Buttons */}
+                        {mode === 'advanced' && (
+                            <>
+                                <button onClick={() => handleMathFunction('sqrt')}>√</button>
+                                <button onClick={() => handleChar('**')}>^</button>
+                                <button onClick={() => handleChar('(')}>(</button>
+                                <button onClick={() => handleChar(')')}>)</button>
+                                <button onClick={() => handleMathFunction('log')}>log</button>
+                                <button onClick={() => handleMathFunction('pi')}>π</button>
+                            </>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Calculator />);
+    </script>
+</body>
+</html>
