@@ -1,0 +1,121 @@
+/* style.css */
+:root {
+    --bg-color: #f4f4f9;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --display-bg: #e0e0e0;
+    --btn-bg: #f0f0f0;
+    --btn-hover: #dcdcdc;
+    --accent-color: #007bff;
+    --accent-text: #fff;
+    --operator-color: #ff9f43;
+}
+
+body.dark-mode {
+    --bg-color: #1e1e2e;
+    --container-bg: #2d2d44;
+    --text-color: #ffffff;
+    --display-bg: #181825;
+    --btn-bg: #3b3b58;
+    --btn-hover: #4e4e75;
+    --accent-color: #89b4fa;
+    --accent-text: #1e1e2e;
+    --operator-color: #fab387;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.theme-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container {
+    background-color: var(--container-bg);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 380px; /* Slightly wider for React layout */
+    text-align: center;
+}
+
+h1 { margin-bottom: 20px; font-size: 1.5rem; }
+
+.mode-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.mode-btn {
+    padding: 8px 20px;
+    border: none;
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.mode-btn.active {
+    background-color: var(--accent-color);
+    color: var(--accent-text);
+}
+
+.display {
+    width: 100%;
+    height: 60px;
+    background-color: var(--display-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    text-align: right;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.buttons-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+button {
+    padding: 15px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+button:hover { background-color: var(--btn-hover); }
+
+.span-2 { grid-column: span 2; }
+.equal-btn { background-color: var(--operator-color); color: #fff; }
+.simple-equal { grid-row: span 2; height: 100%; }
