@@ -1,121 +1,186 @@
-/* style.css */
 :root {
-    --bg-color: #f4f4f9;
-    --container-bg: #ffffff;
-    --text-color: #333;
-    --display-bg: #e0e0e0;
-    --btn-bg: #f0f0f0;
-    --btn-hover: #dcdcdc;
-    --accent-color: #007bff;
-    --accent-text: #fff;
-    --operator-color: #ff9f43;
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-main: #ffffff;
+    --text-secondary: #e2e2e2;
+    --btn-bg: rgba(255, 255, 255, 0.15);
+    --btn-hover: rgba(255, 255, 255, 0.3);
+    --operator-bg: #ff9f43;
+    --operator-hover: #ffb166;
+    --accent-bg: #00d2d3;
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
-body.dark-mode {
-    --bg-color: #1e1e2e;
-    --container-bg: #2d2d44;
-    --text-color: #ffffff;
-    --display-bg: #181825;
-    --btn-bg: #3b3b58;
-    --btn-hover: #4e4e75;
-    --accent-color: #89b4fa;
-    --accent-text: #1e1e2e;
-    --operator-color: #fab387;
+body.light-mode {
+    --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    --text-main: #2d3436;
+    --text-secondary: #636e72;
+    --btn-bg: #ffffff;
+    --btn-hover: #dfe6e9;
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: background-color 0.3s, color 0.3s;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background: var(--bg-gradient);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-}
-
-.theme-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    background-color: var(--btn-bg);
-    color: var(--text-color);
-    border: 1px solid var(--text-color);
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
+    transition: background 0.5s ease;
 }
 
 .container {
-    background-color: var(--container-bg);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    width: 380px; /* Slightly wider for React layout */
-    text-align: center;
-}
-
-h1 { margin-bottom: 20px; font-size: 1.5rem; }
-
-.mode-selector {
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 25px;
+    width: 380px;
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    gap: 10px;
+    flex-direction: column;
+    gap: 15px;
+    transition: all 0.3s ease;
 }
 
-.mode-btn {
-    padding: 8px 20px;
-    border: none;
-    background-color: var(--btn-bg);
-    color: var(--text-color);
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-.mode-btn.active {
-    background-color: var(--accent-color);
-    color: var(--accent-text);
-}
-
-.display {
-    width: 100%;
-    height: 60px;
-    background-color: var(--display-bg);
-    color: var(--text-color);
-    border: none;
-    border-radius: 10px;
-    font-size: 1.5rem;
-    text-align: right;
-    padding: 10px;
+/* Header & Toggle */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.buttons-grid {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(4, 1fr);
+h1 {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    font-weight: 500;
+    letter-spacing: 1px;
 }
 
-button {
-    padding: 15px;
-    font-size: 1.1rem;
+.theme-toggle {
+    background: none;
     border: none;
-    border-radius: 8px;
-    background-color: var(--btn-bg);
-    color: var(--text-color);
     cursor: pointer;
+    font-size: 1.5rem;
+    transition: transform 0.3s;
+}
+.theme-toggle:hover { transform: rotate(15deg); }
+
+/* Display Area */
+.display-container {
+    text-align: right;
+    margin-bottom: 10px;
+    padding: 0 10px;
 }
 
-button:hover { background-color: var(--btn-hover); }
+.history {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    min-height: 20px;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
 
-.span-2 { grid-column: span 2; }
-.equal-btn { background-color: var(--operator-color); color: #fff; }
-.simple-equal { grid-row: span 2; height: 100%; }
+.result {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    font-weight: 500;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+/* Mode Switcher */
+.mode-switch {
+    background: var(--btn-bg);
+    border-radius: 12px;
+    padding: 4px;
+    display: flex;
+    gap: 5px;
+}
+
+.mode-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: var(--accent-bg);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Keypad */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+button.key {
+    height: 60px;
+    border: none;
+    border-radius: 16px;
+    background: var(--btn-bg);
+    color: var(--text-main);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+button.key:hover {
+    background: var(--btn-hover);
+    transform: translateY(-2px);
+}
+
+button.key:active {
+    transform: scale(0.95);
+}
+
+/* Special Button Colors */
+.btn-op {
+    color: var(--accent-bg);
+    font-weight: 700;
+}
+
+.btn-eq {
+    background: var(--operator-bg) !important;
+    color: white !important;
+    grid-column: span 2;
+}
+
+.btn-eq:hover {
+    background: var(--operator-hover) !important;
+    box-shadow: 0 0 15px rgba(255, 159, 67, 0.4);
+}
+
+.btn-del {
+    color: #ff6b6b;
+}
+
+.btn-ac {
+    color: #ff6b6b;
+    font-weight: 700;
+}
